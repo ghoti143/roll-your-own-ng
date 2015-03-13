@@ -38,8 +38,12 @@ Scope.prototype.$$digestOnce = function() {
 };
 
 Scope.prototype.$digest = function() {
+	var ttl = 9;
 	var dirty;
 	do {
 		dirty = this.$$digestOnce();
+		if(dirty && ttl-- === 0) {
+			throw "10 digest iterations reached";
+		}
 	} while(dirty);	
 };
